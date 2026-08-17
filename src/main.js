@@ -6,7 +6,6 @@ import './styles.css';
 import { createParameters } from './simulation/parameters.js';
 import { createSimulation } from './simulation/createSimulation.js';
 import { createLabPanel } from './ui/labPanel.js';
-import { createKeyboardControls } from './interaction/keyboardControls.js';
 
 
 
@@ -124,8 +123,9 @@ async function main() {
     attractorHelper.visible = lab;
     //orbit.enabled = lab;
     hud.innerHTML = lab
-      ? '<strong>LAB</strong> · P: performance · R: reset · 1–5: pruebas · Q/A W/S E/D T/G Y/H U/J I/K O/L: parámetros'
-      : '<strong>PERFORMANCE</strong> · P: lab · espacio: invertir radial · puntero: atractor · Q/A..O/L: parámetros';
+      ? '<strong>LAB</strong> · P: performance · R: reset · 1–5: pruebas'
+      //: '<strong>PERFORMANCE</strong> · P: lab · espacio: invertir radial · puntero: atractor';
+      : '';
   };
 
   panel = createLabPanel({
@@ -135,10 +135,6 @@ async function main() {
     onModeChange: () => setMode(mode === 'LAB' ? 'PERFORMANCE' : 'LAB'),
     onPauseChange: () => paused = !paused
   });
-
-  // Control continuo de cada parámetro por teclado (mantener presionado = rampa).
-  const keyboardControls = createKeyboardControls(params);
-  const clock = new THREE.Clock();
 
   const hud = document.createElement('div');
   hud.className = 'hud';
@@ -186,9 +182,6 @@ async function main() {
 
   // FRAME LOOP ------------------------------------------------------------
   renderer.setAnimationLoop(() => {
-    const dt = clock.getDelta();
-    const changedByKeyboard = keyboardControls.update(dt);
-    if (changedByKeyboard) panel.refresh();
     if (!paused) simulation.stepSimulation();
     orbit.update();
     renderer.render(scene, camera);
