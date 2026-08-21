@@ -9,8 +9,9 @@ export function createParameters() {
     timeScale: uniform(1.0),
     initialSpeed: uniform(0.35),
     maxSpeed: uniform(5.0),
-    boundsSize: uniform(10.0),
+    boundsRadius: uniform(5.0),
     particleSize: uniform(0.035),
+    sizeVariation: uniform(0.0),
 
     windEnabled: uniform(0.0),
     wind: uniform(new THREE.Vector3(0.0, 0.0, 0.0)),
